@@ -75,7 +75,7 @@ function create(req, res) {
       });
     }
 
-    user.password = '';
+    user.password = undefined;
 
     res.status(201).json({
       status: 'Ok',

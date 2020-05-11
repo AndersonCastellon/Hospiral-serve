@@ -13,26 +13,21 @@ function loginWithEmail(body) {
     User.findOne({ email: body.email }, (error, user) => {
       if (error) {
         reject({ code: 500, error });
-      }
-
-      if (!user) {
+      } else if (!user) {
         reject({ code: 400, message: 'Bad credentials - email' });
-      }
-
-      // password not match
-      if (!bcript.compareSync(body.password, user.password)) {
+      } else if (!bcript.compareSync(body.password, user.password)) {
         reject({ code: 400, message: 'Bad credentials - password' });
+      } else {
+        // all god
+        user.password = undefined;
+
+        // generate jwt
+        var token = jwt.sign({ user: user }, SECRET_KEY, {
+          expiresIn: 31536000
+        });
+
+        resolve({ id: user._id, user, token });
       }
-
-      // all god
-      user.password = '';
-
-      // generate jwt
-      var token = jwt.sign({ user: user }, SECRET_KEY, {
-        expiresIn: 31536000
-      });
-
-      resolve({ user, token });
     });
   });
 }

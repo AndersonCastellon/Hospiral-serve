@@ -2,7 +2,9 @@ var jwt = require('jsonwebtoken');
 var secretkey = require('../config/config').secretKey;
 
 exports.verifyToken = (req, res, next) => {
-  var token = req.header('authorization');
+  var token = req.header('Authorization');
+
+  console.log(token);
 
   jwt.verify(token, secretkey, (error, decoded) => {
     if (error) {

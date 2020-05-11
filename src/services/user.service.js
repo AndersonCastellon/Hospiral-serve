@@ -3,6 +3,8 @@ const User = require('../models/user.schema');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = require('../config/config').secretKey;
 
+const moment = require('moment');
+
 function getUsers(from, limit) {
   return new Promise((resolve, reject) => {
     User.find({}, 'name email photo role google')
@@ -60,10 +62,10 @@ function createWithGoogle(body) {
           if (user) {
             // generate jwt
             const token = jwt.sign({ user: user }, SECRET_KEY, {
-              expiresIn: 31536000
+              expiresIn: moment().add(15, 'days').unix()
             });
 
-            resolve({ user, token });
+            resolve({ id: user._id, user, token });
           }
         });
       } else {
@@ -74,7 +76,7 @@ function createWithGoogle(body) {
           if (error) reject(error);
           // generate jwt
           const token = jwt.sign({ user: user }, SECRET_KEY, {
-            expiresIn: 31536000
+            expiresIn: moment().add(15, 'days').unix()
           });
 
           user.password = undefined;

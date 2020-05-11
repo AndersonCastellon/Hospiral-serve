@@ -5,10 +5,7 @@ var mdAuth = require('../middleware/auth.middleware');
 
 // controller
 var userController = require('../controllers/user.controller');
-app
-  .route('/')
-  .get(userController.getUsers)
-  .post(mdAuth.verifyToken, userController.create);
+app.route('/').get(userController.getUsers).post(userController.create);
 
 app
   .route('/:id')

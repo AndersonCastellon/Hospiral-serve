@@ -10,14 +10,17 @@ var roles = {
 
 // Schema de users, campos, requerimientos y validaciones de los campos en la db
 
-var userSchema = new Schema({
-  name: { type: String, required: [true, 'name required'] },
-  email: { type: String, unique: true, required: [true, 'email required'] },
-  password: { type: String, required: [true, 'password required'] },
-  photo: { type: String },
-  role: { type: String, required: true, default: 'USER_ROLE', enum: roles },
-  google: { type: Boolean, default: false }
-});
+var userSchema = new Schema(
+  {
+    name: { type: String, required: [true, 'name required'] },
+    email: { type: String, unique: true, required: [true, 'email required'] },
+    password: { type: String, required: [true, 'password required'] },
+    photo: { type: String },
+    role: { type: String, required: true, default: 'USER_ROLE', enum: roles },
+    google: { type: Boolean, default: false }
+  },
+  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+);
 
 userSchema.plugin(uniqueValidator, { message: '{PATH} must be unique' });
 

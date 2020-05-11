@@ -12,7 +12,8 @@ function loginWithEmail(req, res) {
     .loginWithEmail(body)
     .then((data) => {
       return res.status(200).json({
-        status: 'ok',
+        code: 200,
+        id: data.id,
         user: data.user,
         token: data.token
       });
@@ -34,7 +35,8 @@ function loginWithGoogle(req, res) {
     .then((body) => {
       userService.createWithGoogle(body).then((data) => {
         return res.status(200).json({
-          status: 'ok',
+          code: 200,
+          id: data.id,
           user: data.user,
           token: data.token
         });
